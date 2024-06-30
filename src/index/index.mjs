@@ -7,13 +7,11 @@ const onCLickAdd = () => {
     //textboxの値を空にする
     document.getElementById("add-text").value = "";
     //未完了リストに追加
-    createCompleteTodo(inputText);
-
-
+    createIncompleteTodo(inputText);
 }
 
 //未完了リストの作成
-const createCompleteTodo = (todo) => {
+const createIncompleteTodo = (todo) => {
     //↓TODOアイテムを作成
     //li要素を生成
     const li = document.createElement("li");
@@ -41,31 +39,40 @@ const createCompleteTodo = (todo) => {
     document.getElementById("incomplete-lists").appendChild(li);
     //↑TODOアイテムを作成
 
-    //完了ボタンにイベント付与
-    completeButton.addEventListener("click", () => {
-        const completeTarget = completeButton.closest("li");
-        completeButton.nextElementSibling.remove();
-        completeButton.remove();
-        //戻すボタンを生成
-        const backButton = document.createElement("button");
-        backButton.innerText = "戻す";
-        backButton.className = "back-button";
-        //戻すボタンをli要素の子要素に追加
-        completeTarget.firstElementChild.appendChild(backButton);
-        //完了リストに移動
-        document.getElementById("complete-lists").appendChild(completeTarget);
-         //戻すボタンにイベント付与
-        backButton.addEventListener("click",() => {
-            const todoText = backButton.previousElementSibling.innerText;
-            createCompleteTodo(todoText);
-            backButton.closest("li").remove();
-        })
-    });
-    //削除ボタンにイベント付与
-    deleteButton.addEventListener("click",() => {
-        const DeleteTarget = deleteButton.closest("li");
-        document.getElementById("incomplete-lists").removeChild(DeleteTarget);
-    });
+    //完了リストの作成
+    completeButton.addEventListener("click",createCompleteTodo(completeButton));
+    //削除ボタンのイベント
+    deleteButton.addEventListener("click",() => onClickDeleteButton(deleteButton));
+}
+
+//完了リストの作成
+const createCompleteTodo = (completeButton) => ()=> {
+    const completeTarget = completeButton.closest("li");
+    completeButton.nextElementSibling.remove();
+    completeButton.remove();
+    //戻すボタンを生成
+    const backButton = document.createElement("button");
+    backButton.innerText = "戻す";
+    backButton.className = "back-button";
+    //戻すボタンをli要素の子要素に追加
+    completeTarget.firstElementChild.appendChild(backButton);
+    //完了リストに移動
+    document.getElementById("complete-lists").appendChild(completeTarget);
+     //戻すボタンにイベント付与
+    backButton.addEventListener("click",() => onClickBackButton(backButton));
+};
+
+//削除ボタンのイベント
+const onClickDeleteButton = (deleteButton) => {
+    const DeleteTarget = deleteButton.closest("li");
+    document.getElementById("incomplete-lists").removeChild(DeleteTarget);
+};
+
+//戻すボタンのイベント
+const onClickBackButton = (backButton) => {
+    const todoText = backButton.previousElementSibling.innerText;
+    createIncompleteTodo(todoText);
+    backButton.closest("li").remove();
 }
 
 document.getElementById("add-button").addEventListener("click", onCLickAdd);
