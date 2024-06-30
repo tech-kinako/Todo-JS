@@ -35,11 +35,13 @@ button:hover {
 
 .incomplete-area {
     width: 70%;
-    min-height: 200px;
+    height: 300px;
+    overflow: scroll;
     padding: 8px;
     margin: 4px auto;
     border: 2px solid rgb(84, 173, 144);
     border-radius: 8px;
+
 }
 
 .title {
@@ -59,7 +61,8 @@ button:hover {
 
 .complete-area {
     width: 70%;
-    min-height: 200px;
+    height: 300px;
+    overflow: scroll;
     padding: 8px;
     margin: 4px auto;
     background-color: rgb(156, 198, 209);
